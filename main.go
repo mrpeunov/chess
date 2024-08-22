@@ -54,7 +54,7 @@ func (board *ChessBoard) show() {
 	} else {
 		for i := 0; i < 8; i++ {
 			fmt.Print(i + 1)
-			for j := 0; j < 8; j++ {
+			for j := 7; j >= 0; j-- {
 				fmt.Print(board.positions[i][j])
 			}
 			fmt.Println()
@@ -66,13 +66,8 @@ func (board *ChessBoard) show() {
 func (board *ChessBoard) move(startPosition string, finishPosition string) {
 	startI, startJ := parsePosition(startPosition)
 	finishI, finishJ := parsePosition(finishPosition)
-
-	fmt.Println(startI, startJ, board.positions)
-	fmt.Println(board.positions[finishI][finishJ])
 	board.positions[finishI][finishJ] = board.positions[startI][startJ]
-	fmt.Println(board.positions[finishI][finishJ])
 	board.positions[startI][startJ] = "-"
-	fmt.Println(finishI, finishJ, board.positions)
 	board.isWhiteMove = !board.isWhiteMove
 	board.moveNumber++
 }
