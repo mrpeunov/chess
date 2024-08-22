@@ -3,8 +3,6 @@ package main
 import (
 	"chess/core"
 	"fmt"
-	"strconv"
-	"strings"
 )
 
 func getInput(message string) string {
@@ -14,29 +12,28 @@ func getInput(message string) string {
 	return input
 }
 
-func validatePosition(input string) {
+// вынести
+func validatePosition(input string) error {
 	if input == "end" {
 		panic("Game was ended by user")
 	}
-	if len(input) != 2 {
-		panic("Invalid position: len != 2")
+	isValid, err := core.IsPositionValid(input)
+	if isValid != true || err != nil {
+		return err
 	}
-	if !strings.Contains(core.ROW, input[:1]) {
-		panic("Invalid position: incorrect letter")
-	}
-	val, err := strconv.Atoi(input[1:])
-	if err != nil {
-		panic("Invalid position")
-	}
-	if val < 1 || val > 8 {
-		panic("Invalid position")
-	}
+	return nil
 }
 
 func getPosition(message string) string {
-	input := getInput(message)
-	validatePosition(input)
-	return input
+	for {
+		input := getInput(message)
+		err := validatePosition(input)
+		if err != nil {
+			fmt.Println("Incorrect!", err)
+			continue
+		}
+		return input
+	}
 }
 
 func getMove() core.Move {
