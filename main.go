@@ -81,25 +81,28 @@ func parsePosition(position string) (int, int) {
 	return j - 1, i
 }
 
+func getInput(message string) string {
+	var input string
+	fmt.Print(message)
+	fmt.Scan(&input)
+	return input
+}
+
 func main() {
 	var from, to string
 
-	var gameEnded bool = false
 	board := createChessBoard()
 
-	for !gameEnded {
+	for {
 		board.show()
 
-		fmt.Print("Enter from: ")
-		fmt.Scan(&from)
+		from = getInput("Enter from: ")
+		to = getInput("Enter to: ")
 
-		fmt.Print("Enter to: ")
-		fmt.Scan(&to)
+		if from == "end" || to == "end" {
+			break
+		}
 
 		board.move(from, to)
-
-		if from == "end" {
-			gameEnded = true
-		}
 	}
 }
