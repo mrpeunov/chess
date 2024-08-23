@@ -1,10 +1,10 @@
 package core
 
 import (
+	"errors"
 	"fmt"
+	"slices"
 )
-
-const ROW = "abcdefgh"
 
 type Piece string
 
@@ -18,7 +18,22 @@ type ChessBoard struct {
 	moveNumber      int
 }
 
-// CreateChessBoard Function for creating starting position of game
+var piecesViewMap = map[Piece]string{
+	"R": "♜",
+	"N": "♞",
+	"B": "♝",
+	"K": "♚",
+	"Q": "♛",
+	"P": "♟",
+	"r": "♖",
+	"n": "♘",
+	"b": "♗",
+	"k": "♔",
+	"q": "♕",
+	"p": "♙",
+	"-": "-",
+}
+
 func CreateChessBoard() ChessBoard {
 	positions := [8][8]Piece{
 		{"R", "N", "B", "Q", "K", "B", "N", "R"},
@@ -40,33 +55,62 @@ func CreateChessBoard() ChessBoard {
 	}
 }
 
+func printField(i, j int, piece Piece) {
+	symbol := piecesViewMap[piece]
+	if symbol == "-" {
+		if (i+j)%2 == 0 {
+			fmt.Print("□ ")
+		} else {
+			fmt.Print("■ ")
+		}
+	} else {
+		fmt.Print(symbol + " ")
+	}
+}
+
 func (board *ChessBoard) Show() {
 	if board.isWhiteMove {
 		for i := 7; i >= 0; i-- {
 			fmt.Print(i + 1)
+			fmt.Print(" ")
 			for j := 7; j >= 0; j-- {
-				fmt.Print(board.positions[i][j])
+				printField(i, j, board.positions[i][j])
 			}
 			fmt.Println()
 		}
-		fmt.Println("-abcdefgh")
+		fmt.Println("- a b c d e f g h ")
 	} else {
 		for i := 0; i < 8; i++ {
 			fmt.Print(i + 1)
+			fmt.Print(" ")
 			for j := 7; j >= 0; j-- {
-				fmt.Print(board.positions[i][j])
+				printField(i, j, board.positions[i][j])
 			}
 			fmt.Println()
 		}
-		fmt.Println("-hgfedcba")
+		fmt.Println("- h g f e d c b a ")
 	}
 }
 
-func (board *ChessBoard) ProcessMove(move Move) {
-	startI, startJ := move.getFromIndexes()
-	finishI, finishJ := move.getToIndexes()
-	board.positions[finishI][finishJ] = board.positions[startI][startJ]
-	board.positions[startI][startJ] = "-"
+func (board *ChessBoard) ProcessMove(move Move) error {
+	availableMoves := board.getAvailablePositionForMove(move.From)
+	if !slices.Contains(availableMoves, move.To) {
+		return errors.New("move not available")
+	}
+	board.processMove(move)
+	return nil
+}
+
+func (board *ChessBoard) getAvailablePositionForMove(startPosition Position) []Position {
+	result := make([]Position, 3)
+	position, _ := NewPosition("e4")
+	result = append(result, position)
+	return result
+}
+
+func (board *ChessBoard) processMove(move Move) {
+	board.positions[move.To.i][move.To.j] = board.positions[move.From.i][move.From.j]
+	board.positions[move.From.i][move.From.j] = "-"
 	board.isWhiteMove = !board.isWhiteMove
 	board.moveNumber++
 }

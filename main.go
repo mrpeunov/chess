@@ -2,6 +2,7 @@ package main
 
 import (
 	"chess/core"
+	"errors"
 	"fmt"
 )
 
@@ -12,35 +13,38 @@ func getInput(message string) string {
 	return input
 }
 
-// вынести
-func validatePosition(input string) error {
-	if input == "end" {
-		panic("Game was ended by user")
-	}
-	isValid, err := core.IsPositionValid(input)
-	if isValid != true || err != nil {
-		return err
-	}
-	return nil
-}
-
-func getPosition(message string) string {
+func getPosition(message string) (core.Position, error) {
 	for {
 		input := getInput(message)
-		err := validatePosition(input)
+		if input == "end" {
+			return core.Position{}, errors.New("game was ended by user")
+		}
+
+		position, err := core.NewPosition(input)
 		if err != nil {
-			fmt.Println("Incorrect!", err)
+			fmt.Println("Incorrect:", err)
+			fmt.Println("Try again.")
 			continue
 		}
-		return input
+		return position, nil
 	}
 }
 
-func getMove() core.Move {
-	var from, to string
-	from = getPosition("Enter from: ")
-	to = getPosition("Enter to: ")
-	return core.Move{From: from, To: to}
+func getMove() (core.Move, error) {
+	move := core.Move{}
+	from, err := getPosition("Enter from: ")
+	if err != nil {
+		return move, err
+	}
+
+	to, err := getPosition("Enter to: ")
+	if err != nil {
+		return move, err
+	}
+
+	move.From = from
+	move.To = to
+	return move, nil
 }
 
 func main() {
@@ -48,7 +52,15 @@ func main() {
 
 	for {
 		board.Show()
-		move := getMove()
-		board.ProcessMove(move)
+		move, err := getMove()
+		if err != nil {
+			fmt.Println(err)
+			break
+		}
+		err = board.ProcessMove(move)
+		if err != nil {
+			fmt.Println(err)
+			continue
+		}
 	}
 }
