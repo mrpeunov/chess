@@ -35,6 +35,12 @@ func NewPosition(rawPosition string) (Position, error) {
 	return position, nil
 }
 
+func NewPositionByIndexes(i, j int) Position {
+	digit := strconv.Itoa(i + 1)
+	letter := ROW[j : j+1]
+	return Position{letter + digit, i, j}
+}
+
 func parseDigit(rawPosition string) (int, error) {
 	index, err := strconv.Atoi(rawPosition[1:])
 	if err != nil {
