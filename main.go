@@ -1,7 +1,7 @@
 package main
 
 import (
-	"chess/core"
+	"chess/game"
 	"errors"
 	"fmt"
 )
@@ -13,14 +13,14 @@ func getInput(message string) string {
 	return input
 }
 
-func getPosition(message string) (core.Position, error) {
+func getPosition(message string) (game.Position, error) {
 	for {
 		input := getInput(message)
 		if input == "end" {
-			return core.Position{}, errors.New("game was ended by user")
+			return game.Position{}, errors.New("game was ended by user")
 		}
 
-		position, err := core.NewPosition(input)
+		position, err := game.NewPosition(input)
 		if err != nil {
 			fmt.Println("Incorrect:", err)
 			fmt.Println("Try again.")
@@ -30,8 +30,8 @@ func getPosition(message string) (core.Position, error) {
 	}
 }
 
-func getMove() (core.Move, error) {
-	move := core.Move{}
+func getMove() (game.Move, error) {
+	move := game.Move{}
 	from, err := getPosition("Enter from: ")
 	if err != nil {
 		return move, err
@@ -48,7 +48,7 @@ func getMove() (core.Move, error) {
 }
 
 func main() {
-	board := core.CreateChessBoard()
+	board := game.CreateChessBoard()
 
 	for {
 		board.Show()

@@ -1,3 +1,3 @@
-package core
+package game
 
 const ROW = "abcdefgh"

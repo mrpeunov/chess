@@ -1,4 +1,4 @@
-package core
+package game
 
 type Offset struct {
 	i, j int
