@@ -44,7 +44,7 @@ var PawnSettingsBlack = PieceSetting{
 	isLong:  false,
 }
 
-var MovesMap = map[Piece]PieceSetting{
+var MovesMap = map[Square]PieceSetting{
 	"R": RookSettings,
 	"N": KnightSettings,
 	"B": BishopSettings,

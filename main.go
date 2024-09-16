@@ -16,7 +16,7 @@ func getInput(message string) string {
 func getPosition(message string) (game.Position, error) {
 	for {
 		input := getInput(message)
-		if input == "end" {
+		if input == "q" {
 			return game.Position{}, errors.New("game was ended by user")
 		}
 

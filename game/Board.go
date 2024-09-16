@@ -1,10 +1,11 @@
 package game
 
 type Piece string
+type Square string
 
 // ChessBoard Нотация Форсайта — Эдвардса (https://ru.wikipedia.org/wiki/Нотация_Форсайта_—_Эдвардса)
 type ChessBoard struct {
-	fields          *[8][8]Piece
+	squares         *[8][8]Square
 	isWhiteMove     bool
 	castling        [4]string
 	enPassant       string
@@ -12,19 +13,23 @@ type ChessBoard struct {
 	moveNumber      int
 }
 
-func CreateChessBoard() ChessBoard {
-	fields := [8][8]Piece{
-		{"R", "N", "B", "Q", "K", "B", "N", "R"},
-		{"P", "P", "P", "P", "P", "P", "P", "P"},
-		{"-", "-", "-", "-", "-", "-", "-", "-"},
-		{"-", "-", "-", "-", "-", "-", "-", "-"},
-		{"-", "-", "-", "-", "-", "-", "-", "-"},
-		{"-", "-", "-", "-", "-", "-", "-", "-"},
-		{"p", "p", "p", "p", "p", "p", "p", "p"},
-		{"r", "n", "b", "q", "k", "b", "n", "r"},
+func GetSquares() [8][8]Square {
+	return [8][8]Square{
+		{"R", "P", "-", "-", "-", "-", "p", "r"},
+		{"N", "P", "-", "-", "-", "-", "p", "n"},
+		{"B", "P", "-", "-", "-", "-", "p", "b"},
+		{"K", "P", "-", "-", "-", "-", "p", "k"},
+		{"Q", "P", "-", "-", "-", "-", "p", "q"},
+		{"B", "P", "-", "-", "-", "-", "p", "b"},
+		{"N", "P", "-", "-", "-", "-", "p", "n"},
+		{"R", "P", "-", "-", "-", "-", "p", "r"},
 	}
+}
+
+func CreateChessBoard() ChessBoard {
+	squares := GetSquares()
 	return ChessBoard{
-		fields:          &fields,
+		squares:         &squares,
 		isWhiteMove:     true,
 		castling:        [4]string{"r", "n", "b", "q"},
 		enPassant:       "r",
@@ -33,18 +38,10 @@ func CreateChessBoard() ChessBoard {
 	}
 }
 
-// Get получает фигуру по правильным индексам, а не по хранению
-func (board *ChessBoard) get(i, j int) Piece {
-	return board.fields[i][j]
+func (board *ChessBoard) get(i, j int) Square {
+	return board.squares[i][j]
 }
 
-// Set устанавливает фигуру по правильным индексам, а не по хранению
-func (board *ChessBoard) set(i, j int, p Piece) {
-	board.fields[i][j] = p
-	// todo: подумать над выходом за пределы массива
+func (board *ChessBoard) set(i, j int, p Square) {
+	board.squares[i][j] = p
 }
-
-// todo: нужно решить проблему невнятного индексирования
-// todo: возможно стоит использовать x, y нотацию и передавать позицию, а не индексы
-// todo: переименовать Core в Game
-// todo: вынести консольное отображение в отдельный слой
