@@ -21,7 +21,7 @@ func (board *ChessBoard) ProcessMove(move Move) error {
 
 func (board *ChessBoard) getAvailablePositionForMove(startPosition Position) []Position {
 	piece := board.get(startPosition.i, startPosition.j)
-	availablePositions := make([]Position, 3)
+	availablePositions := make([]Position, 0)
 	settings := MovesMap[piece]
 	for _, offset := range settings.offsets {
 		newI := startPosition.i + offset.i
