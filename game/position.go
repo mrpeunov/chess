@@ -20,12 +20,12 @@ func NewPosition(rawPosition string) (Position, error) {
 		return position, errors.New("invalid position: len != 2")
 	}
 
-	i, err := parseDigit(rawPosition)
+	i, err := parseLetter(rawPosition)
 	if err != nil {
 		return position, err
 	}
 
-	j, err := parseLetter(rawPosition)
+	j, err := parseDigit(rawPosition)
 	if err != nil {
 		return position, err
 	}
@@ -38,8 +38,8 @@ func NewPosition(rawPosition string) (Position, error) {
 }
 
 func NewPositionByIndexes(i, j int) Position {
-	digit := strconv.Itoa(i + 1)
-	letter := ROW[j : j+1]
+	digit := strconv.Itoa(j + 1)
+	letter := ROW[i : i+1]
 	return Position{letter + digit, i, j}
 }
 

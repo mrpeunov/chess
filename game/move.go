@@ -2,7 +2,6 @@ package game
 
 import (
 	"errors"
-	"fmt"
 	"slices"
 )
 
@@ -34,14 +33,13 @@ func (board *ChessBoard) ProcessMove(move Move) error {
 	return nil
 }
 
-var BlackPawn Piece = "p"
-var WhitePawn Piece = "P"
+var BlackPawn Square = "p"
+var WhitePawn Square = "P"
 var EmptySquare Square = "-"
 
 func (board *ChessBoard) GetAvailablePosition(startPosition Position) ([]Position, error) {
 	var availablePositions []Position
 	var err error
-	fmt.Println(startPosition)
 	square := board.Get(startPosition.i, startPosition.j)
 
 	if square == EmptySquare {
@@ -50,12 +48,13 @@ func (board *ChessBoard) GetAvailablePosition(startPosition Position) ([]Positio
 
 	// todo: проверка цвета фигуры и игрока
 
-	piece := Piece(square)
+	switch square {
 
-	switch piece {
 	case BlackPawn:
+		availablePositions, err = board.getAvailablePositionForBlackPawn(startPosition)
+
 	case WhitePawn:
-		availablePositions, err = board.getAvailablePositionForPawn(startPosition)
+		availablePositions, err = board.getAvailablePositionForWhitePawn(startPosition)
 	}
 
 	if err != nil {

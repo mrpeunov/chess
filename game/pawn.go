@@ -1,14 +1,48 @@
 package game
 
-func (board *ChessBoard) getAvailablePositionForPawn(startPosition Position) ([]Position, error) {
+import (
+	"errors"
+)
+
+func (board *ChessBoard) getAvailablePositionForWhitePawn(startPosition Position) ([]Position, error) {
 	// проверить, что пешка
 	// обработка прямых ходов
 	// обработка съедания
 	//return make([]Position, 0), nil
-	e3, _ := NewPosition("e3")
-	e4, _ := NewPosition("e4")
-	lst := make([]Position, 0)
-	lst = append(lst, e3)
-	lst = append(lst, e4)
-	return lst, nil
+
+	positions := make([]Position, 0)
+
+	square := board.Get(startPosition.i, startPosition.j)
+
+	if square != "P" {
+		return positions, errors.New("piece is not pawn")
+	}
+
+	position := NewPositionByIndexes(startPosition.i, startPosition.j+1)
+	positions = append(positions, position)
+
+	if startPosition.j == 1 {
+		positions = append(positions, NewPositionByIndexes(position.i, position.j+1))
+	}
+
+	return positions, nil
+}
+
+func (board *ChessBoard) getAvailablePositionForBlackPawn(startPosition Position) ([]Position, error) {
+	positions := make([]Position, 0)
+	square := board.Get(startPosition.i, startPosition.j)
+	if square != "p" {
+		return positions, errors.New("piece is not pawn")
+	}
+
+	position := NewPositionByIndexes(startPosition.i, startPosition.j-1)
+	positions = append(positions, position)
+
+	if startPosition.j == 6 {
+		positions = append(positions, NewPositionByIndexes(position.i, position.j-1))
+	}
+
+	// todo: подумать как объединить с верхней функцией
+
+	return positions, nil
 }

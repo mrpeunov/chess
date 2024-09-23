@@ -39,9 +39,9 @@ func CreateChessBoard() ChessBoard {
 }
 
 func (board *ChessBoard) Get(i, j int) Square {
-	return board.squares[j][i]
+	return board.squares[i][j]
 }
 
 func (board *ChessBoard) Set(i, j int, p Square) {
-	board.squares[j][i] = p
+	board.squares[i][j] = p
 }
