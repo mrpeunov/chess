@@ -8,8 +8,9 @@ func TestNewPositionSuccess(t *testing.T) {
 		i, j        int
 	}{
 		{"a1", 0, 0},
+		{"e2", 4, 1},
 		{"h8", 7, 7},
-		{"d5", 4, 3},
+		{"d5", 3, 4},
 	}
 
 	for _, test := range tests {

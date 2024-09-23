@@ -2,6 +2,7 @@ package game
 
 import (
 	"errors"
+	"fmt"
 	"slices"
 )
 
@@ -40,7 +41,7 @@ var EmptySquare Square = "-"
 func (board *ChessBoard) GetAvailablePosition(startPosition Position) ([]Position, error) {
 	var availablePositions []Position
 	var err error
-
+	fmt.Println(startPosition)
 	square := board.Get(startPosition.i, startPosition.j)
 
 	if square == EmptySquare {
@@ -54,7 +55,7 @@ func (board *ChessBoard) GetAvailablePosition(startPosition Position) ([]Positio
 	switch piece {
 	case BlackPawn:
 	case WhitePawn:
-		availablePositions, err = GetAvailablePositionForPawn(board, startPosition)
+		availablePositions, err = board.getAvailablePositionForPawn(startPosition)
 	}
 
 	if err != nil {
