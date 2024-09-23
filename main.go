@@ -31,20 +31,17 @@ func getPosition(message string) (game.Position, error) {
 }
 
 func getMove() (game.Move, error) {
-	move := game.Move{}
 	from, err := getPosition("Enter from: ")
 	if err != nil {
-		return move, err
+		return game.Move{}, err
 	}
 
 	to, err := getPosition("Enter to: ")
 	if err != nil {
-		return move, err
+		return game.Move{}, err
 	}
 
-	move.From = from
-	move.To = to
-	return move, nil
+	return game.NewMove(from, to), nil
 }
 
 func main() {

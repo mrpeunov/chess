@@ -6,6 +6,8 @@ import (
 	"strings"
 )
 
+const ROW = "abcdefgh"
+
 type Position struct {
 	raw string
 	i   int

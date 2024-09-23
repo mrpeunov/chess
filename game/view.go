@@ -1,6 +1,8 @@
 package game
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func getSquareView(i, j int, square Square) string {
 	symbol := squaresViewMap[square]
@@ -23,7 +25,7 @@ func (board *ChessBoard) Show() {
 			fmt.Print(j + 1)
 			fmt.Print(" ")
 			for i := 7; i >= 0; i-- {
-				fmt.Print(getSquareView(i, j, board.get(i, j)) + " ")
+				fmt.Print(getSquareView(i, j, board.Get(i, j)) + " ")
 			}
 			fmt.Println()
 		}
@@ -33,7 +35,7 @@ func (board *ChessBoard) Show() {
 			fmt.Print(j + 1)
 			fmt.Print(" ")
 			for i := 7; i >= 0; i-- {
-				fmt.Print(getSquareView(i, j, board.get(i, j)) + " ")
+				fmt.Print(getSquareView(i, j, board.Get(i, j)) + " ")
 			}
 			fmt.Println()
 		}

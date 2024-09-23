@@ -40,7 +40,7 @@ func TestGetAvailablePositionForMove_StartPawn(t *testing.T) {
 
 	for _, test := range tests {
 		position, _ := NewPosition("e2")
-		gotPositions := board.getAvailablePositionForMove(position)
+		gotPositions, _ := board.GetAvailablePosition(position)
 		gotRawPositions := positionsToRaw(gotPositions)
 
 		if !compareRawPositions(gotRawPositions, test.expectedRawPosition) {

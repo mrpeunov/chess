@@ -38,10 +38,10 @@ func CreateChessBoard() ChessBoard {
 	}
 }
 
-func (board *ChessBoard) get(i, j int) Square {
+func (board *ChessBoard) Get(i, j int) Square {
 	return board.squares[i][j]
 }
 
-func (board *ChessBoard) set(i, j int, p Square) {
+func (board *ChessBoard) Set(i, j int, p Square) {
 	board.squares[i][j] = p
 }

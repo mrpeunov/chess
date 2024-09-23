@@ -1,6 +1,8 @@
 package game
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestGetSquareView(t *testing.T) {
 	var tests = []struct {
